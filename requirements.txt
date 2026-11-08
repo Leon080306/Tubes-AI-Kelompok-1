@@ -1,0 +1,13 @@
+
+langchain
+langchain-core
+langchain-ollama
+langgraph
+langgraph-checkpoint
+sqlglot
+sqlalchemy
+pymysql
+chromadb
+langchain-chroma
+python-dotenv
+langchain-text-splitters
