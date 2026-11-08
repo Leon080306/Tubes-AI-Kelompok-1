@@ -57,37 +57,38 @@ def supervisor_node(state: OptimizerState) -> dict:
             }
         }]
 
-    # =====================================
-    # CASE 1: ERROR
-    # =====================================
-
-    if error:
-
-        return {
-            "next_worker": "END",
-            "current_worker": "supervisor",
-            "workflow_status": "FAILED",
-            "trace": create_trace(
-                "A worker reported an error. Stop the workflow.",
-                "END",
-                "FAILED"
-            )
-        }
-
-    # =====================================
-    # CASE 2: NO RECOMMENDATION
-    # =====================================
+    # CASE 1: NO RECOMMENDATION
 
     if recommendation_status == "NO_RECOMMENDATION":
 
+        status = "NO_RECOMMENDATION"
+
         return {
             "next_worker": "END",
             "current_worker": "supervisor",
-            "workflow_status": "NO_RECOMMENDATION",
+            "workflow_status": status,
             "trace": create_trace(
-                "No additional index is justified.",
+                "No additional index is justified. Stop the workflow without modifying the database.",
                 "END",
-                "NO_RECOMMENDATION"
+                status
+            )
+    }
+
+
+# CASE 2: ERROR HANDLING
+
+    if error:
+
+        status = "FAILED"
+
+        return {
+            "next_worker": "END",
+            "current_worker": "supervisor",
+            "workflow_status": status,
+            "trace": create_trace(
+                "A worker reported an error. Stop the workflow.",
+                "END",
+                status
             )
         }
 
